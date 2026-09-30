@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="description" content="CloudPulse — cloud operations dashboard portfolio demo by Mihai Teleuca.">
+  <meta name="theme-color" content="#08101f">
+  <title>CloudPulse — Cloud Operations Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar" id="sidebar">
+    <div>
+      <a class="brand" href="#overview">
+        <div class="logo">
+          <svg viewBox="0 0 32 32" fill="none"><path d="M8 22.5a6.5 6.5 0 0 1 1.1-12.9A8 8 0 0 1 24.6 12 5.5 5.5 0 1 1 24 23H8Z" stroke="currentColor" stroke-width="2"/><path d="M10 18h3l2-4 3.2 8 2.2-4H24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div><strong>CloudPulse</strong><span>Operations Center</span></div>
+      </a>
+      <nav>
+        <p class="nav-label">Workspace</p>
+        <a class="nav-item active" data-section="overview" href="#overview"><i>⌂</i>Overview</a>
+        <a class="nav-item" data-section="infrastructure" href="#infrastructure"><i>◫</i>Infrastructure</a>
+        <a class="nav-item" data-section="performance" href="#performance"><i>⌁</i>Performance</a>
+        <a class="nav-item" data-section="costs" href="#costs"><i>€</i>Cost Management</a>
+        <a class="nav-item" data-section="incidents" href="#incidents"><i>!</i>Incidents <b class="badge" id="incidentBadge">3</b></a>
+        <p class="nav-label space">System</p>
+        <a class="nav-item" data-section="activity" href="#activity"><i>≡</i>Activity Logs</a>
+        <a class="nav-item" data-section="settings" href="#settings"><i>⚙</i>Settings</a>
+      </nav>
+    </div>
+    <div class="side-bottom">
+      <div class="env"><div><span class="dot green"></span><div><strong>Production</strong><small>All systems operational</small></div></div><footer><span>eu-central-1</span><span>v2.4.0-demo</span></footer></div>
+      <a class="profile" href="https://github.com/mihaiteleuca" target="_blank" rel="noreferrer"><span class="avatar">MT</span><div><strong>Mihai Teleuca</strong><small>Cloud Engineer Portfolio</small></div><b>↗</b></a>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="top-left">
+        <button class="icon mobile" id="menuButton">☰</button>
+        <div><small class="eyebrow">Cloud Operations</small><h1 id="pageTitle">Overview</h1></div>
+      </div>
+      <div class="actions">
+        <span class="live"><span class="pulse"></span>Live Demo</span>
+        <button class="icon" id="themeToggle" title="Toggle theme">◐</button>
+        <button class="icon notify" id="notificationButton" title="Notifications">◇<span></span></button>
+        <button class="primary" id="exportButton">↓ Export Report</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="view active" id="overview" data-title="Overview">
+        <div class="hero"><div><small class="eyebrow">Infrastructure health</small><h2>Everything looks healthy.</h2><p>Real-time simulated telemetry across a production-style cloud estate. No backend or database required.</p></div><span class="updated"><span class="dot green"></span>Last update: <b id="lastUpdated">just now</b></span></div>
+
+        <div class="metrics">
+          <article class="metric"><header><span class="metric-icon purple">CPU</span><b class="good">↓ 3.2%</b></header><h3><span id="cpuValue">42</span><small>%</small></h3><p>Average CPU usage</p><div class="progress"><span id="cpuBar" style="width:42%"></span></div></article>
+          <article class="metric"><header><span class="metric-icon blue">RAM</span><b class="info">↑ 1.8%</b></header><h3><span id="memoryValue">68</span><small>%</small></h3><p>Memory utilization</p><div class="progress"><span id="memoryBar" style="width:68%"></span></div></article>
+          <article class="metric"><header><span class="metric-icon green-bg">UP</span><b class="good">SLA 99.9%</b></header><h3><span id="uptimeValue">99.98</span><small>%</small></h3><p>Platform availability</p><div class="progress"><span style="width:99.98%"></span></div></article>
+          <article class="metric"><header><span class="metric-icon orange">€</span><b class="good">↓ 6.4%</b></header><h3><small>€</small><span id="monthlyCost">1,842</span></h3><p>Estimated monthly spend</p><div class="progress"><span style="width:61%"></span></div></article>
+        </div>
+
+        <div class="grid two">
+          <article class="panel wide">
+            <header class="panel-head"><div><small class="eyebrow">Performance</small><h3>Resource Utilization</h3></div><div class="segments" id="rangeControl"><button data-range="1H">1H</button><button class="active" data-range="24H">24H</button><button data-range="7D">7D</button><button data-range="30D">30D</button></div></header>
+            <div class="chart"><canvas id="utilizationChart"></canvas></div>
+            <div class="legend"><span><i class="legend-dot purple-dot"></i>CPU Usage</span><span><i class="legend-dot blue-dot"></i>Memory</span></div>
+          </article>
+          <article class="panel">
+            <header class="panel-head"><div><small class="eyebrow">Health</small><h3>Service Status</h3></div><span class="pill success">Operational</span></header>
+            <div class="services">
+              <div class="service"><div><span class="symbol">VM</span><p><b>Compute Cluster</b><small>12 instances</small></p></div><span class="status ok">Healthy</span></div>
+              <div class="service"><div><span class="symbol">DB</span><p><b>PostgreSQL</b><small>Primary + replica</small></p></div><span class="status ok">Healthy</span></div>
+              <div class="service"><div><span class="symbol">CDN</span><p><b>Edge Network</b><small>32 PoPs</small></p></div><span class="status ok">Healthy</span></div>
+              <div class="service"><div><span class="symbol">API</span><p><b>API Gateway</b><small>18.4k req/min</small></p></div><span class="status warn">Degraded</span></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="grid three">
+          <article class="panel"><header class="panel-head"><div><small class="eyebrow">Traffic</small><h3>Requests / min</h3></div><b class="good">↑ 12.4%</b></header><div class="big">18.4K</div><div class="bars" id="trafficBars"></div></article>
+          <article class="panel"><header class="panel-head"><div><small class="eyebrow">Latency</small><h3>Global Response Time</h3></div><span class="pill success">Good</span></header><div class="big"><span id="latencyValue">83</span><small> ms</small></div><div class="rows"><div><span>Frankfurt</span><b>41 ms</b></div><div><span>Virginia</span><b>96 ms</b></div><div><span>Singapore</span><b>137 ms</b></div></div></article>
+          <article class="panel"><header class="panel-head"><div><small class="eyebrow">Security</small><h3>Security Posture</h3></div><span class="score">94</span></header><div class="rows security"><div><span class="dot green"></span><span>MFA enforcement</span><b>100%</b></div><div><span class="dot green"></span><span>Encryption</span><b>Enabled</b></div><div><span class="dot orange-dot2"></span><span>Open findings</span><b>2</b></div></div></article>
+        </div>
+
+        <div class="grid two">
+          <article class="panel"><header class="panel-head"><div><small class="eyebrow">Operations</small><h3>Recent Activity</h3></div><button class="text-btn" data-nav="activity">View all →</button></header><div id="overviewActivity"></div></article>
+          <article class="panel"><header class="panel-head"><div><small class="eyebrow">Alerts</small><h3>Active Incidents</h3></div><button class="text-btn" data-nav="incidents">View all →</button></header><div id="overviewIncidents"></div></article>
+        </div>
+      </section>
+
+      <section class="view" id="infrastructure" data-title="Infrastructure">
+        <div class="hero"><div><small class="eyebrow">Cloud resources</small><h2>Infrastructure Inventory</h2><p>A simulated multi-cloud estate covering compute, storage, databases and networking.</p></div><button class="secondary" id="refreshResources">↻ Refresh inventory</button></div>
+        <div class="metrics compact">
+          <article class="metric"><p>Virtual Machines</p><h3>12</h3><small class="sub">10 running · 2 standby</small></article>
+          <article class="metric"><p>Databases</p><h3>4</h3><small class="sub">3 healthy · 1 maintenance</small></article>
+          <article class="metric"><p>Storage</p><h3>8.4<small> TB</small></h3><small class="sub">67% allocated</small></article>
+          <article class="metric"><p>Regions</p><h3>3</h3><small class="sub">EU · US · APAC</small></article>
+        </div>
+        <article class="panel">
+          <header class="panel-head responsive"><div><small class="eyebrow">Resources</small><h3>Cloud Resource Inventory</h3></div><div class="tools"><input id="resourceSearch" class="field" type="search" placeholder="Search resources..."><select id="resourceFilter" class="field"><option value="all">All types</option><option>Compute</option><option>Database</option><option>Storage</option><option>Network</option></select></div></header>
+          <div class="table-wrap"><table><thead><tr><th>Resource</th><th>Type</th><th>Provider</th><th>Region</th><th>Status</th><th>Utilization</th><th>Monthly Cost</th></tr></thead><tbody id="resourceTableBody"></tbody></table></div>
+        </article>
+        <div class="grid two">
+          <article class="panel"><header class="panel-head"><div><small class="eyebrow">Topology</small><h3>Architecture Map</h3></div><span class="pill">Demo topology</span></header>
+            <div class="topology"><div class="node edge">Internet<small>Global traffic</small></div><i></i><div class="node">CDN / WAF<small>Edge protection</small></div><i></i><div class="branch"><div class="node">API Gateway<small>18.4k req/min</small></div><div class="node">Web Cluster<small>6 instances</small></div></div><i></i><div class="branch"><div class="node db">PostgreSQL<small>Primary / replica</small></div><div class="node storage">Object Storage<small>8.4 TB</small></div></div></div>
+          </article>
+          <article class="panel"><header class="panel-head"><div><small class="eyebrow">Capacity</small><h3>Resource Distribution</h3></div></header><div class="donut-wrap"><div class="donut"><div><b>28</b><small>Resources</small></div></div><div class="donut-legend"><div><i class="legend-dot purple-dot"></i><span>Compute</span><b>43%</b></div><div><i class="legend-dot blue-dot"></i><span>Storage</span><b>28%</b></div><div><i class="legend-dot green-dot"></i><span>Database</span><b>18%</b></div><div><i class="legend-dot orange-dot"></i><span>Network</span><b>11%</b></div></div></div></article>
+        </div>
+      </section>
+
+      <section class="view" id="performance" data-title="Performance">
+        <div class="hero"><div><small class="eyebrow">Observability</small><h2>Performance Analytics</h2><p>Live-style telemetry for application and infrastructure performance.</p></div><span class="updated"><span class="pulse"></span>Streaming simulated metrics</span></div>
+        <div class="metrics">
+          <article class="metric"><p>P95 Latency</p><h3>146<small> ms</small></h3><b class="good">↓ 8.7%</b></article>
+          <article class="metric"><p>Error Rate</p><h3>0.18<small>%</small></h3><b class="good">↓ 0.04%</b></article>
+          <article class="metric"><p>Throughput</p><h3>18.4<small>k</small></h3><b class="info">↑ 12.4%</b></article>
+          <article class="metric"><p>Active Sessions</p><h3>2,681</h3><b class="info">↑ 7.1%</b></article>
+        </div>
+        <div class="grid two"><article class="panel wide"><header class="panel-head"><div><small class="eyebrow">APM</small><h3>Request Throughput</h3></div><span class="pill">Last 24 hours</span></header><div class="chart large"><canvas id="throughputChart"></canvas></div></article><article class="panel"><header class="panel-head"><div><small class="eyebrow">Endpoints</small><h3>Slowest Services</h3></div></header><div class="services"><div class="endpoint"><p><b>POST /api/checkout</b><small>Payments Service</small></p><b class="warn-text">286 ms</b></div><div class="endpoint"><p><b>GET /api/catalog</b><small>Product Service</small></p><b>168 ms</b></div><div class="endpoint"><p><b>POST /api/login</b><small>Identity Service</small></p><b>132 ms</b></div><div class="endpoint"><p><b>GET /api/profile</b><small>User Service</small></p><b>89 ms</b></div></div></article></div>
+        <article class="panel"><header class="panel-head"><div><small class="eyebrow">Regional health</small><h3>Latency by Region</h3></div></header><div class="regions"><div class="region"><header><span>DE</span><p><b>Frankfurt</b><small>eu-central-1</small></p></header><h4>41 ms</h4><div class="progress"><span style="width:30%"></span></div></div><div class="region"><header><span>US</span><p><b>N. Virginia</b><small>us-east-1</small></p></header><h4>96 ms</h4><div class="progress"><span style="width:56%"></span></div></div><div class="region"><header><span>SG</span><p><b>Singapore</b><small>ap-southeast-1</small></p></header><h4>137 ms</h4><div class="progress"><span style="width:76%"></span></div></div><div class="region"><header><span>AU</span><p><b>Sydney</b><small>ap-southeast-2</small></p></header><h4>173 ms</h4><div class="progress"><span style="width:88%"></span></div></div></div></article>
+      </section>
+
+      <section class="view" id="costs" data-title="Cost Management">
+        <div class="hero"><div><small class="eyebrow">FinOps</small><h2>Cloud Cost Management</h2><p>Track budget, spending trends and simulated optimization opportunities.</p></div><button class="secondary" id="simulateSaving">Run optimization scan</button></div>
+        <div class="metrics"><article class="metric"><p>Month-to-date</p><h3><small>€</small>1,306</h3><b class="good">6.4% below forecast</b></article><article class="metric"><p>Forecast</p><h3><small>€</small>1,842</h3><small class="sub">Budget: €2,200</small></article><article class="metric"><p>Potential Savings</p><h3><small>€</small><span id="savingValue">286</span></h3><b class="good">15.5% opportunity</b></article><article class="metric"><p>Daily Average</p><h3><small>€</small>61.40</h3><b class="good">↓ €4.20 vs last month</b></article></div>
+        <div class="grid two"><article class="panel wide"><header class="panel-head"><div><small class="eyebrow">Spend trend</small><h3>Monthly Cloud Cost</h3></div><span class="pill">EUR</span></header><div class="chart large"><canvas id="costChart"></canvas></div></article><article class="panel"><header class="panel-head"><div><small class="eyebrow">Budget</small><h3>September Budget</h3></div></header><div class="budget"><div><b>59%</b><small>used</small></div></div><div class="budget-info"><p><span>Spent</span><b>€1,306</b></p><p><span>Remaining</span><b>€894</b></p><p><span>Budget</span><b>€2,200</b></p></div></article></div>
+        <article class="panel"><header class="panel-head"><div><small class="eyebrow">Recommendations</small><h3>Optimization Opportunities</h3></div><span class="pill success">€286/mo potential</span></header><div class="recommendations"><div class="rec"><span>↘</span><p><b>Rightsize 3 compute instances</b><small>Average CPU utilization remains below 20% for more than 14 days.</small></p><b>€124/mo</b><button class="small-btn optimize">Review</button></div><div class="rec"><span>◌</span><p><b>Delete unattached storage volumes</b><small>4 volumes totaling 680 GB have not been attached in 21 days.</small></p><b>€72/mo</b><button class="small-btn optimize">Review</button></div><div class="rec"><span>⌁</span><p><b>Purchase reserved database capacity</b><small>Stable database workload is a candidate for 1-year reservation.</small></p><b>€90/mo</b><button class="small-btn optimize">Review</button></div></div></article>
+      </section>
+
+      <section class="view" id="incidents" data-title="Incidents">
+        <div class="hero"><div><small class="eyebrow">Reliability</small><h2>Incident Management</h2><p>Simulated alert and incident workflow for a production cloud environment.</p></div><button class="primary" id="createIncidentButton">+ Create test incident</button></div>
+        <div class="metrics compact"><article class="metric"><p>Open Incidents</p><h3 id="openIncidentCount">3</h3><b class="bad">1 high priority</b></article><article class="metric"><p>MTTA</p><h3>2.8<small> min</small></h3><b class="good">↓ 21%</b></article><article class="metric"><p>MTTR</p><h3>18.4<small> min</small></h3><b class="good">↓ 11%</b></article><article class="metric"><p>30-day Availability</p><h3>99.98<small>%</small></h3><b class="good">Within SLA</b></article></div>
+        <article class="panel"><header class="panel-head"><div><small class="eyebrow">Incident queue</small><h3>Active & Recent Incidents</h3></div><select id="incidentFilter" class="field"><option value="all">All severities</option><option>High</option><option>Medium</option><option>Low</option></select></header><div id="incidentTable" class="incident-table"></div></article>
+      </section>
+
+      <section class="view" id="activity" data-title="Activity Logs">
+        <div class="hero"><div><small class="eyebrow">Audit trail</small><h2>Activity Logs</h2><p>A searchable simulated audit log of cloud operations and platform events.</p></div><button class="secondary" id="clearFilters">Clear filters</button></div>
+        <article class="panel"><header class="panel-head responsive"><div><small class="eyebrow">Events</small><h3>System Activity</h3></div><div class="tools"><input id="logSearch" class="field" type="search" placeholder="Search logs..."><select id="logLevelFilter" class="field"><option value="all">All levels</option><option>INFO</option><option>WARN</option><option>ERROR</option><option>SUCCESS</option></select></div></header><div class="console" id="logConsole"></div></article>
+      </section>
+
+      <section class="view" id="settings" data-title="Settings">
+        <div class="hero"><div><small class="eyebrow">Preferences</small><h2>Dashboard Settings</h2><p>Settings are saved in your browser using localStorage. No account or backend is required.</p></div></div>
+        <div class="grid two"><article class="panel"><header class="panel-head"><div><small class="eyebrow">Appearance</small><h3>Interface</h3></div></header><div class="settings"><label><p><b>Dark mode</b><small>Use the dark operations-center theme.</small></p><input type="checkbox" id="darkModeSetting" checked></label><label><p><b>Compact density</b><small>Reduce spacing in large data tables.</small></p><input type="checkbox" id="compactSetting"></label></div></article><article class="panel"><header class="panel-head"><div><small class="eyebrow">Monitoring</small><h3>Demo Telemetry</h3></div></header><div class="settings"><label><p><b>Live simulation</b><small>Continuously update dashboard metrics.</small></p><input type="checkbox" id="liveSimulationSetting" checked></label><label><p><b>Alert notifications</b><small>Show in-app alerts for simulated events.</small></p><input type="checkbox" id="notificationSetting" checked></label></div></article></div>
+        <article class="panel about"><div class="about-brand"><div class="logo large-logo"><svg viewBox="0 0 32 32" fill="none"><path d="M8 22.5a6.5 6.5 0 0 1 1.1-12.9A8 8 0 0 1 24.6 12 5.5 5.5 0 1 1 24 23H8Z" stroke="currentColor" stroke-width="2"/><path d="M10 18h3l2-4 3.2 8 2.2-4H24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><small class="eyebrow">Portfolio Project</small><h3>CloudPulse Dashboard</h3><p>Designed and built as a frontend-only cloud operations dashboard demo.</p></div></div><div class="about-meta"><p><span>Author</span><b>Mihai Teleuca</b></p><p><span>Stack</span><b>HTML · CSS · JavaScript</b></p><p><span>Persistence</span><b>Browser localStorage</b></p><p><span>Backend</span><b>Not required</b></p></div></article>
+      </section>
+    </main>
+
+    <footer class="page-footer"><span>CloudPulse Dashboard — portfolio demo by Mihai Teleuca</span><span>Frontend-only · Simulated cloud telemetry</span></footer>
+  </div>
+</div>
+
+<aside class="drawer" id="notificationDrawer"><header><div><small class="eyebrow">Inbox</small><h3>Notifications</h3></div><button class="icon" id="closeDrawer">×</button></header><div id="notificationList"></div></aside>
+<div class="overlay" id="overlay"></div>
+
+<div class="modal" id="incidentModal"><div class="modal-card"><header><div><small class="eyebrow">Demo action</small><h3>Create Test Incident</h3></div><button class="icon" id="closeModal">×</button></header><form id="incidentForm"><label>Incident title<input class="field form-field" name="title" required placeholder="e.g. Elevated API latency"></label><label>Severity<select class="field form-field" name="severity"><option>High</option><option selected>Medium</option><option>Low</option></select></label><label>Service<input class="field form-field" name="service" required placeholder="e.g. API Gateway"></label><footer><button type="button" class="secondary" id="cancelIncident">Cancel</button><button type="submit" class="primary">Create incident</button></footer></form></div></div>
+<div class="toasts" id="toastContainer"></div>
+<script src="script.js"></script>
+</body>
+</html>
